@@ -1,4 +1,4 @@
-package com.android.mvcdandagger.screens.questiondetails
+package com.android.mvcdandagger.screens.questionslist
 
 import com.android.mvcdandagger.Constants
 import com.android.mvcdandagger.networking.StackoverflowApi
