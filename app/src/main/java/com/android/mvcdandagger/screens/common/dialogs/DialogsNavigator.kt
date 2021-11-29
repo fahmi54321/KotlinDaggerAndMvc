@@ -7,7 +7,7 @@ class DialogsNavigator(
     private val fragmentManager: FragmentManager
 ) {
 
-    //todo 1 (next QuestionsListActivity)
+    //todo 2 (next QuestionsListActivity)
     fun showServerErrorDialogFragment(){
         fragmentManager.beginTransaction()
             .add(ServerErrorDialogFragment.newInstance(), null)

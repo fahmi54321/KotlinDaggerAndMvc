@@ -15,7 +15,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     private var isDataLoaded = false
     private lateinit var viewMvc: QuestionsListViewMvc
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
-    private lateinit var dialogsNavigator: DialogsNavigator //todo 2
+    private lateinit var dialogsNavigator: DialogsNavigator //todo 3
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
         setContentView(viewMvc.rootView)
 
         fetchQuestionsUseCase = FetchQuestionsUseCase()
-        dialogsNavigator = DialogsNavigator(supportFragmentManager) //todo 3
+        dialogsNavigator = DialogsNavigator(supportFragmentManager) //todo 4
 
     }
 
@@ -72,6 +72,6 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     }
 
     private fun onFetchFailed() {
-        dialogsNavigator.showServerErrorDialogFragment() //todo 4
+        dialogsNavigator.showServerErrorDialogFragment() //todo 5 (finish)
     }
 }
