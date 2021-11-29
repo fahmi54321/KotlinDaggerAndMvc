@@ -11,11 +11,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.mvcdandagger.R
 import com.android.mvcdandagger.questions.Question
-import com.android.mvcdandagger.screens.questiondetails.QuestionDetailsActivity
+import com.android.mvcdandagger.screens.common.viewmvc.BaseViewMvc
 
 class QuestionsListViewMvc(
     private val layoutInflater: LayoutInflater, //todo 1
     private val parent: ViewGroup? //todo 2
+):BaseViewMvc<QuestionsListViewMvc.Listener>(
+    layoutInflater,
+    parent,
+    R.layout.activity_questions_list
 ) {
 
     //todo 7
@@ -28,13 +32,6 @@ class QuestionsListViewMvc(
     private val swipeRefresh: SwipeRefreshLayout
     private val recyclerView: RecyclerView
     private val questionsAdapter: QuestionsAdapter
-
-    //todo 5
-    val rootView: View = layoutInflater.inflate(R.layout.activity_questions_list, parent, false)
-    private val context: Context get() = rootView.context //todo 20
-
-    //todo 8
-    private val listeners = HashSet<Listener>()
 
     init {
 
@@ -67,15 +64,7 @@ class QuestionsListViewMvc(
     }
 
 
-    //todo 9
-    fun registerListener(listener: Listener) {
-        listeners.add(listener)
-    }
 
-    //todo 9
-    fun unRegisterListener(listener: Listener) {
-        listeners.remove(listener)
-    }
 
     //todo 22
     fun showProgressIndication() {
@@ -88,12 +77,6 @@ class QuestionsListViewMvc(
             swipeRefresh.isRefreshing = false
         }
     }
-
-    //todo 6
-    fun <T : View?> findViewById(@IdRes id: Int): T {
-        return rootView.findViewById<T>(id)
-    }
-
 
     //todo 4
     class QuestionsAdapter(

@@ -3,17 +3,20 @@ package com.android.mvcdandagger.screens.questiondetails
 import android.os.Build
 import android.text.Html
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.annotation.IdRes
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.mvcdandagger.R
 import com.android.mvcdandagger.screens.common.toolbar.MyToolbar
+import com.android.mvcdandagger.screens.common.viewmvc.BaseViewMvc
 
 class QuestionDetailsListViewMvc(
-    private val layoutInflater: LayoutInflater,
-    private val parent: ViewGroup?
+    layoutInflater: LayoutInflater,
+    parent: ViewGroup?
+):BaseViewMvc<QuestionDetailsListViewMvc.Listeners>(
+    layoutInflater,
+    parent,
+    R.layout.activity_questions_list
 ) {
 
     interface Listeners{
@@ -22,13 +25,10 @@ class QuestionDetailsListViewMvc(
 
     private lateinit var txtQuestionBody: TextView
 
-    val rootView:View = layoutInflater.inflate(R.layout.activity_question_details,parent,false)
     var swipeRefresh: SwipeRefreshLayout
     var toolbar: MyToolbar
-    val listeners = HashSet<Listeners>()
 
     init {
-
         txtQuestionBody = findViewById(R.id.txt_question_body)
 
         toolbar = findViewById(R.id.toolbar)
@@ -42,10 +42,6 @@ class QuestionDetailsListViewMvc(
         swipeRefresh.isEnabled = false
     }
 
-    fun <T : View?> findViewById(@IdRes id: Int): T {
-        return rootView.findViewById<T>(id)
-    }
-
     fun showProgressIndication() {
         swipeRefresh.isRefreshing = true
     }
@@ -54,14 +50,6 @@ class QuestionDetailsListViewMvc(
         if (swipeRefresh.isRefreshing){
             swipeRefresh.isRefreshing = false
         }
-    }
-
-    fun registerListener(listener : Listeners){
-        listeners.add(listener)
-    }
-
-    fun unRegisterListener(listener: Listeners){
-        listeners.remove(listener)
     }
 
     fun bindQuestions(detailsText: String) {
