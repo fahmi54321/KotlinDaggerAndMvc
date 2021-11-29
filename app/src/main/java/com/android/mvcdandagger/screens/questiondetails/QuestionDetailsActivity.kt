@@ -12,6 +12,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.mvcdandagger.Constants
 import com.android.mvcdandagger.R
 import com.android.mvcdandagger.networking.StackoverflowApi
+import com.android.mvcdandagger.screens.common.dialogs.DialogsNavigator
 import com.android.mvcdandagger.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.mvcdandagger.screens.common.toolbar.MyToolbar
 import kotlinx.coroutines.*
@@ -24,6 +25,7 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
     private lateinit var stackoverflowApi: StackoverflowApi
     private lateinit var questionId: String
     private lateinit var mvc: QuestionDetailsListViewMvc
+    private lateinit var dialogsNavigator: DialogsNavigator
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,6 +40,7 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
         stackoverflowApi = retrofit.create(StackoverflowApi::class.java)
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
+        dialogsNavigator = DialogsNavigator(supportFragmentManager)
 
     }
 
@@ -79,9 +82,7 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
     }
 
     private fun onFetchFailed() {
-        supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(), null)
-            .commitAllowingStateLoss()
+        dialogsNavigator.showServerErrorDialogFragment()
     }
 
     companion object {
