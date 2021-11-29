@@ -14,45 +14,38 @@ import com.android.mvcdandagger.R
 import com.android.mvcdandagger.networking.StackoverflowApi
 import com.android.mvcdandagger.questions.Question
 import com.android.mvcdandagger.screens.common.dialogs.ServerErrorDialogFragment
+import com.android.mvcdandagger.screens.questiondetails.FetchQuestionsUseCase
 import com.android.mvcdandagger.screens.questiondetails.QuestionDetailsActivity
 import kotlinx.coroutines.*
 import kotlinx.coroutines.NonCancellable.start
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener{ //todo 11
+class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener { //todo 11
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
-    private lateinit var stackoverflowApi: StackoverflowApi
-
     private var isDataLoaded = false
 
-    //todo 12
     private lateinit var viewMvc: QuestionsListViewMvc
+
+    private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        //todo 13
-        viewMvc = QuestionsListViewMvc(LayoutInflater.from(this),null)
+        viewMvc = QuestionsListViewMvc(LayoutInflater.from(this), null)
 
-        setContentView(viewMvc.rootView) //todo 26
+        setContentView(viewMvc.rootView)
 
-
-        //init retrofit
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        stackoverflowApi = retrofit.create(StackoverflowApi::class.java)
+        fetchQuestionsUseCase = FetchQuestionsUseCase()
 
     }
 
     override fun onStart() {
         super.onStart()
-        viewMvc.registerListener(this) //todo 14
-        if (!isDataLoaded){
+        viewMvc.registerListener(this)
+        if (!isDataLoaded) {
             fetchQuestions()
         }
     }
@@ -60,42 +53,41 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     override fun onStop() {
         super.onStop()
         coroutineScope.coroutineContext.cancelChildren()
-        viewMvc.unRegisterListener(this) //todo 15
+        viewMvc.unRegisterListener(this)
     }
 
-    //todo 16 (next QuestionsListViewMvc)
     override fun onRefreshClicked() {
         fetchQuestions()
     }
 
-    //todo 19 (next QuestionsListViewMvc)
     override fun onQuestionClicked(clickQuestion: Question) {
         QuestionDetailsActivity.start(this, clickQuestion.id)
     }
 
-    private fun fetchQuestions(){
+    private fun fetchQuestions() {
         coroutineScope.launch {
-            viewMvc.showProgressIndication() //todo 24
+            viewMvc.showProgressIndication()
+            //todo 5 (finish)
+            val result = fetchQuestionsUseCase.fetchLatestQuestions()
             try {
-                val response = stackoverflowApi.lastActiveQuestions(20)
-                if (response.isSuccessful && response.body() != null){
-                    viewMvc.bindQuestions(response.body()!!.questions) //todo 27 (next QuestionsListViewMvc)
-                    isDataLoaded = true
-                }else{
-                    onFetchFailed()
+                when (result) {
+                    is FetchQuestionsUseCase.Result.Success -> {
+                        viewMvc.bindQuestions(result.questions)
+                        isDataLoaded = true
+                    }
+                    is FetchQuestionsUseCase.Result.Failure -> {
+                        onFetchFailed()
+                    }
                 }
-            }catch (t:Throwable){
-                onFetchFailed()
-            }finally {
-                viewMvc.hideProgressIndication() //todo 25
+            } finally {
+                viewMvc.hideProgressIndication()
             }
         }
     }
 
-    private fun onFetchFailed(){
+    private fun onFetchFailed() {
         supportFragmentManager.beginTransaction()
-            .add(ServerErrorDialogFragment.newInstance(),null)
+            .add(ServerErrorDialogFragment.newInstance(), null)
             .commitAllowingStateLoss()
     }
-
 }
