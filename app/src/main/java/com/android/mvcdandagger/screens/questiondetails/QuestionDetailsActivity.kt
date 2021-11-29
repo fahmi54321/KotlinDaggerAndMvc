@@ -43,7 +43,7 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
         screenNavigator = ScreenNavigator(this)
         fetchDetailQuestionsUseCase = FetchDetailQuestionsUseCase(
-            (application as MyApplication).retrofit
+            (application as MyApplication).stackoverflowApi
         )
     }
 
