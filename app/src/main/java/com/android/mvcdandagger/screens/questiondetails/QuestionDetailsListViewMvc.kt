@@ -16,14 +16,14 @@ class QuestionDetailsListViewMvc(
 ):BaseViewMvc<QuestionDetailsListViewMvc.Listeners>(
     layoutInflater,
     parent,
-    R.layout.activity_questions_list
+    R.layout.activity_question_details
 ) {
 
     interface Listeners{
         fun onBackClicked()
     }
 
-    private lateinit var txtQuestionBody: TextView
+    private var txtQuestionBody: TextView
 
     var swipeRefresh: SwipeRefreshLayout
     var toolbar: MyToolbar
