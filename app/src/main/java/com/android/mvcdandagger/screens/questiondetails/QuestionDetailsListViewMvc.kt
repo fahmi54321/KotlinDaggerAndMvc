@@ -16,7 +16,7 @@ class QuestionDetailsListViewMvc(
 ):BaseViewMvc<QuestionDetailsListViewMvc.Listeners>(
     layoutInflater,
     parent,
-    R.layout.activity_questions_list
+    R.layout.activity_question_details
 ) {
 
     interface Listeners{
