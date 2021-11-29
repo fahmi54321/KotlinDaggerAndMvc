@@ -24,6 +24,7 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
 
     private lateinit var questionId: String
     private lateinit var mvc: QuestionDetailsListViewMvc
+    private lateinit var fetchDetailsQuestionsUseCase: FetchDetailsQuestionsUseCase
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +33,7 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
         setContentView(mvc.rootView)
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
+        fetchDetailsQuestionsUseCase = FetchDetailsQuestionsUseCase()
 
     }
 
@@ -56,15 +58,14 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
         coroutineScope.launch {
             mvc.showProgressIndication()
             try {
-                val response = stackoverflowApi.questionDetails(questionId)
-                if (response.isSuccessful && response.body() != null){
-                    mvc.bindQuestions(response.body()!!.question.body)
-                }else{
-                    onFetchFailed()
-                }
-            }catch (t: Throwable){
-                if (t !is CancellationException){
-                    onFetchFailed()
+                val result = fetchDetailsQuestionsUseCase.fetchQuestionDetails(questionId)
+                when(result){
+                    is FetchDetailsQuestionsUseCase.ResultDetails.SuccessDetails->{
+                        mvc.bindQuestions(result.question)
+                    }
+                    is FetchDetailsQuestionsUseCase.ResultDetails.Failure->{
+                        onFetchFailed()
+                    }
                 }
             }finally {
                 mvc.hideProgressIndication()
