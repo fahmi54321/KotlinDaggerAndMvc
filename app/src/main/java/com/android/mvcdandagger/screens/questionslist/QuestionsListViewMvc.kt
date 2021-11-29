@@ -14,43 +14,37 @@ import com.android.mvcdandagger.questions.Question
 import com.android.mvcdandagger.screens.common.viewmvc.BaseViewMvc
 
 class QuestionsListViewMvc(
-    private val layoutInflater: LayoutInflater, //todo 1
-    private val parent: ViewGroup? //todo 2
+    private val layoutInflater: LayoutInflater,
+    private val parent: ViewGroup?
 ):BaseViewMvc<QuestionsListViewMvc.Listener>(
     layoutInflater,
     parent,
     R.layout.activity_questions_list
 ) {
 
-    //todo 7
     interface Listener {
         fun onRefreshClicked()
-        fun onQuestionClicked(clickQuestion: Question) //todo 18 (next QuestionsListActivity)
+        fun onQuestionClicked(clickQuestion: Question)
     }
 
-    //todo 3
     private val swipeRefresh: SwipeRefreshLayout
     private val recyclerView: RecyclerView
     private val questionsAdapter: QuestionsAdapter
 
     init {
 
-        //todo 4
         swipeRefresh = findViewById(R.id.swipeRefresh)
         swipeRefresh.setOnRefreshListener {
 
-            //todo 10 (next QuestionsListActivity)
             for (listener in listeners) {
                 listener.onRefreshClicked()
             }
         }
 
-        //todo 4
         recyclerView = findViewById(R.id.recycler)
-        recyclerView.layoutManager = LinearLayoutManager(context) //todo 21
+        recyclerView.layoutManager = LinearLayoutManager(context)
         questionsAdapter = QuestionsAdapter { clickQuestion ->
 
-            //todo 17
             for (listener in listeners) {
                 listener.onQuestionClicked(clickQuestion)
             }
@@ -58,27 +52,20 @@ class QuestionsListViewMvc(
         recyclerView.adapter = questionsAdapter
     }
 
-    //todo 28 (finish)
     fun bindQuestions(questions: List<Question>) {
         questionsAdapter.bindData(questions)
     }
 
-
-
-
-    //todo 22
     fun showProgressIndication() {
         swipeRefresh.isRefreshing = true
     }
 
-    //todo 23 (next QuestionsListActivity)
     fun hideProgressIndication() {
         if (swipeRefresh.isRefreshing) {
             swipeRefresh.isRefreshing = false
         }
     }
 
-    //todo 4
     class QuestionsAdapter(
         private val onQuestionClickListener: (Question) -> Unit
     ) : RecyclerView.Adapter<QuestionsAdapter.QuestionsViewHolder>() {
