@@ -21,7 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.Listeners {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-    private lateinit var stackoverflowApi: StackoverflowApi
+
     private lateinit var questionId: String
     private lateinit var mvc: QuestionDetailsListViewMvc
 
@@ -30,12 +30,6 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
         super.onCreate(savedInstanceState)
         mvc = QuestionDetailsListViewMvc(LayoutInflater.from(this),null)
         setContentView(mvc.rootView)
-
-        val retrofit = Retrofit.Builder()
-            .baseUrl(Constants.BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        stackoverflowApi = retrofit.create(StackoverflowApi::class.java)
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
 
