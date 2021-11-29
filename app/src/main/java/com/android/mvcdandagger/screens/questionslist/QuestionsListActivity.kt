@@ -55,8 +55,8 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
         coroutineScope.launch {
             viewMvc.showProgressIndication()
             //todo 5 (finish)
-            val result = fetchQuestionsUseCase.fetchLatestQuestions()
             try {
+                val result = fetchQuestionsUseCase.fetchLatestQuestions()
                 when (result) {
                     is FetchQuestionsUseCase.Result.Success -> {
                         viewMvc.bindQuestions(result.questions)
