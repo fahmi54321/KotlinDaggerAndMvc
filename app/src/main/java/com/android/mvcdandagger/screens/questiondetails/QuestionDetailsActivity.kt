@@ -13,6 +13,7 @@ import com.android.mvcdandagger.Constants
 import com.android.mvcdandagger.MyApplication
 import com.android.mvcdandagger.R
 import com.android.mvcdandagger.networking.StackoverflowApi
+import com.android.mvcdandagger.screens.common.activities.BaseActivity
 import com.android.mvcdandagger.screens.common.dialogs.DialogsNavigator
 import com.android.mvcdandagger.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.mvcdandagger.screens.common.navigator.ScreenNavigator
@@ -21,7 +22,7 @@ import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.Listeners {
+class QuestionDetailsActivity : BaseActivity(),QuestionDetailsListViewMvc.Listeners { //todo 9
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -42,7 +43,8 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
         screenNavigator = ScreenNavigator(this)
-        fetchDetailQuestionsUseCase = (application as MyApplication).fetchDetailQuestionsUseCase
+//        fetchDetailQuestionsUseCase = (application as MyApplication).appCompositionRoot.fetchDetailQuestionsUseCase //todo 5 (next BaseActivity)
+        fetchDetailQuestionsUseCase = appCompositionRoot.fetchDetailQuestionsUseCase // todo 10 (finish)
     }
 
     override fun onStart() {
