@@ -12,7 +12,7 @@ import com.android.mvcdandagger.screens.common.navigator.ScreenNavigator
 import com.android.mvcdandagger.screens.questiondetails.QuestionDetailsActivity
 import kotlinx.coroutines.*
 
-class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener { //todo 7
+class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var isDataLoaded = false
@@ -28,10 +28,9 @@ class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener { //
 
         setContentView(viewMvc.rootView)
 
-//        fetchQuestionsUseCase = (application as MyApplication).appCompositionRoot.fetchQuestionsUseCase // todo 4 (QuestionsDetailsActivity)
-        fetchQuestionsUseCase = appCompositionRoot.fetchQuestionsUseCase //todo 8 (next QuestionsDetailsAcivity)
+        fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase // todo 8 (finish) cek juga di QuestionDetailsActivity
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
-        screenNavigator = ScreenNavigator(this)
+        screenNavigator = compositionRoot.screenNavigator //todo 8 (finish) cek juga di QuestionDetailsActivity
 
     }
 

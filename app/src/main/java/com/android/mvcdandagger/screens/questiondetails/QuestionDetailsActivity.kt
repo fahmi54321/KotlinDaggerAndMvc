@@ -22,7 +22,7 @@ import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class QuestionDetailsActivity : BaseActivity(),QuestionDetailsListViewMvc.Listeners { //todo 9
+class QuestionDetailsActivity : BaseActivity(),QuestionDetailsListViewMvc.Listeners {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
 
@@ -42,9 +42,8 @@ class QuestionDetailsActivity : BaseActivity(),QuestionDetailsListViewMvc.Listen
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
-        screenNavigator = ScreenNavigator(this)
-//        fetchDetailQuestionsUseCase = (application as MyApplication).appCompositionRoot.fetchDetailQuestionsUseCase //todo 5 (next BaseActivity)
-        fetchDetailQuestionsUseCase = appCompositionRoot.fetchDetailQuestionsUseCase // todo 10 (finish)
+        screenNavigator = compositionRoot.screenNavigator // todo 8 (finish)
+        fetchDetailQuestionsUseCase = compositionRoot.fetchDetailQuestionsUseCase // todo 8 (finish)
     }
 
     override fun onStart() {
