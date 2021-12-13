@@ -14,10 +14,12 @@ class ActivityCompositionRoot(
     private val appCompositionRoot: AppCompositionRoot
 ) {
 
-    //todo 2 (next BaseActivity)
     val screenNavigator by lazy {
         ScreenNavigator(activity)
     }
+
+    //todo 2 (finish)
+    val application get() = appCompositionRoot.application
 
     val layoutInflater get() = LayoutInflater.from(activity)
     val fragmentManager get() = activity.supportFragmentManager
