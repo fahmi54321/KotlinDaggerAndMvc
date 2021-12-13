@@ -14,7 +14,7 @@ class MyApplication: Application() {
     lateinit var appCompositionRoot: AppCompositionRoot
 
     override fun onCreate() {
-        appCompositionRoot = AppCompositionRoot() //todo 3 (next QuestionsListActivity)
+        appCompositionRoot = AppCompositionRoot(this) //todo 3 (next QuestionsListActivity)
         super.onCreate()
     }
 
