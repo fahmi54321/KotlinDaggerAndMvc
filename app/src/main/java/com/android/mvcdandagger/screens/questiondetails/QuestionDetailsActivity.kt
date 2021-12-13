@@ -42,7 +42,7 @@ class QuestionDetailsActivity : BaseActivity(),QuestionDetailsListViewMvc.Listen
         setContentView(mvc.rootView)
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
-        dialogsNavigator = compositionRoot.dialogNavigator //todo 5 (finish)
+        dialogsNavigator = compositionRoot.dialogNavigator //todo 5 (finish)s
         screenNavigator = compositionRoot.screenNavigator
         fetchDetailQuestionsUseCase = compositionRoot.fetchDetailQuestionsUseCase
     }
