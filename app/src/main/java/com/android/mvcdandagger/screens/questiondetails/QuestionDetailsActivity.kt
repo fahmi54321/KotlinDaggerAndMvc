@@ -42,9 +42,7 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
         screenNavigator = ScreenNavigator(this)
-        fetchDetailQuestionsUseCase = FetchDetailQuestionsUseCase(
-            (application as MyApplication).retrofit
-        )
+        fetchDetailQuestionsUseCase = (application as MyApplication).fetchDetailQuestionsUseCase
     }
 
     override fun onStart() {
