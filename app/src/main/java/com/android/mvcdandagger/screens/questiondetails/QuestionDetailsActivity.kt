@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Html
+import android.view.LayoutInflater
 import android.widget.TextView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.android.mvcdandagger.Constants
@@ -17,65 +18,53 @@ import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class QuestionDetailsActivity : AppCompatActivity() {
+class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.Listeners {
 
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
-
-    private lateinit var toolbar: MyToolbar
-    private lateinit var swipeRefresh: SwipeRefreshLayout
-    private lateinit var txtQuestionBody:TextView
     private lateinit var stackoverflowApi: StackoverflowApi
     private lateinit var questionId: String
+    private lateinit var mvc: QuestionDetailsListViewMvc
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_question_details)
+        mvc = QuestionDetailsListViewMvc(LayoutInflater.from(this),null)
+        setContentView(mvc.rootView)
 
-        txtQuestionBody = findViewById(R.id.txt_question_body)
-
-        //init toolbar
-        toolbar = findViewById(R.id.toolbar)
-        toolbar.setNavigateUpListener { onBackPressed() }
-
-        //init pull-down-to-refresh (used as a progress indicator)
-        swipeRefresh = findViewById(R.id.swipeRefresh)
-        swipeRefresh.isEnabled = false
-
-        //init retrofit
         val retrofit = Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         stackoverflowApi = retrofit.create(StackoverflowApi::class.java)
 
-        //retrive question ID from outside
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
 
     }
 
     override fun onStart() {
         super.onStart()
+        mvc.registerListener(this)
         fetchQuestionDetails()
     }
 
     override fun onStop() {
         super.onStop()
         coroutineScope.coroutineContext.cancelChildren()
+        mvc.unRegisterListener(this)
     }
+
+    override fun onBackClicked() {
+        onBackPressed()
+    }
+
 
     private fun fetchQuestionDetails(){
         coroutineScope.launch {
-            showProgressIndication()
+            mvc.showProgressIndication()
             try {
                 val response = stackoverflowApi.questionDetails(questionId)
                 if (response.isSuccessful && response.body() != null){
-                    val questionBody = response.body()!!.question.body
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-                        txtQuestionBody.text = Html.fromHtml(questionBody,Html.FROM_HTML_MODE_LEGACY)
-                    }else{
-                        @Suppress("DEPRECATION")
-                        txtQuestionBody.text = Html.fromHtml(questionBody)
-                    }
+                    mvc.bindQuestions(response.body()!!.question.body)
                 }else{
                     onFetchFailed()
                 }
@@ -84,7 +73,7 @@ class QuestionDetailsActivity : AppCompatActivity() {
                     onFetchFailed()
                 }
             }finally {
-                hideProgressIndication()
+                mvc.hideProgressIndication()
             }
         }
     }
@@ -93,14 +82,6 @@ class QuestionDetailsActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(ServerErrorDialogFragment.newInstance(), null)
             .commitAllowingStateLoss()
-    }
-
-    private fun showProgressIndication() {
-        swipeRefresh.isRefreshing = true
-    }
-
-    private fun hideProgressIndication() {
-        swipeRefresh.isRefreshing = false
     }
 
     companion object {
