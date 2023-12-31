@@ -14,6 +14,7 @@ import com.android.mvcdandagger.R
 import com.android.mvcdandagger.networking.StackoverflowApi
 import com.android.mvcdandagger.screens.common.dialogs.DialogsNavigator
 import com.android.mvcdandagger.screens.common.dialogs.ServerErrorDialogFragment
+import com.android.mvcdandagger.screens.common.navigator.ScreenNavigator
 import com.android.mvcdandagger.screens.common.toolbar.MyToolbar
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
@@ -26,11 +27,14 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
     private lateinit var questionId: String
     private lateinit var mvc: QuestionDetailsListViewMvc
     private lateinit var dialogsNavigator: DialogsNavigator
+    private lateinit var screenNavigator: ScreenNavigator
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         mvc = QuestionDetailsListViewMvc(LayoutInflater.from(this),null)
+
         setContentView(mvc.rootView)
 
         val retrofit = Retrofit.Builder()
@@ -41,7 +45,7 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
-
+        screenNavigator = ScreenNavigator(this)
     }
 
     override fun onStart() {
@@ -57,7 +61,7 @@ class QuestionDetailsActivity : AppCompatActivity(),QuestionDetailsListViewMvc.L
     }
 
     override fun onBackClicked() {
-        onBackPressed()
+        screenNavigator.navigateBack()
     }
 
 

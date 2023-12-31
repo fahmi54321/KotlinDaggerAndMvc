@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import com.android.mvcdandagger.questions.Question
 import com.android.mvcdandagger.screens.common.dialogs.DialogsNavigator
 import com.android.mvcdandagger.screens.common.dialogs.ServerErrorDialogFragment
+import com.android.mvcdandagger.screens.common.navigator.ScreenNavigator
 import com.android.mvcdandagger.screens.questiondetails.QuestionDetailsActivity
 import kotlinx.coroutines.*
 
@@ -15,7 +16,8 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     private var isDataLoaded = false
     private lateinit var viewMvc: QuestionsListViewMvc
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
-    private lateinit var dialogsNavigator: DialogsNavigator //todo 3
+    private lateinit var dialogsNavigator: DialogsNavigator
+    private lateinit var screenNavigator: ScreenNavigator //todo 2
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
 
         fetchQuestionsUseCase = FetchQuestionsUseCase()
         dialogsNavigator = DialogsNavigator(supportFragmentManager) //todo 4
+        screenNavigator = ScreenNavigator(this) //todo 3
 
     }
 
@@ -48,7 +51,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     }
 
     override fun onQuestionClicked(clickQuestion: Question) {
-        QuestionDetailsActivity.start(this, clickQuestion.id)
+        screenNavigator.toQuestionDetails(clickQuestion.id) //todo 4 (finish)
     }
 
     private fun fetchQuestions() {
