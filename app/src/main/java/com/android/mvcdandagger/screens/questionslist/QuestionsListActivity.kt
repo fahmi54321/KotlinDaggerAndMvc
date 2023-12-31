@@ -3,6 +3,7 @@ package com.android.mvcdandagger.screens.questionslist
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
+import com.android.mvcdandagger.MyApplication
 import com.android.mvcdandagger.questions.Question
 import com.android.mvcdandagger.screens.common.dialogs.DialogsNavigator
 import com.android.mvcdandagger.screens.common.dialogs.ServerErrorDialogFragment
@@ -17,7 +18,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     private lateinit var viewMvc: QuestionsListViewMvc
     private lateinit var fetchQuestionsUseCase: FetchQuestionsUseCase
     private lateinit var dialogsNavigator: DialogsNavigator
-    private lateinit var screenNavigator: ScreenNavigator //todo 2
+    private lateinit var screenNavigator: ScreenNavigator
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,9 +27,12 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
 
         setContentView(viewMvc.rootView)
 
-        fetchQuestionsUseCase = FetchQuestionsUseCase()
-        dialogsNavigator = DialogsNavigator(supportFragmentManager) //todo 4
-        screenNavigator = ScreenNavigator(this) //todo 3
+        //todo 3 (finish)
+        fetchQuestionsUseCase = FetchQuestionsUseCase(
+            (application as MyApplication).retrofit
+        )
+        dialogsNavigator = DialogsNavigator(supportFragmentManager)
+        screenNavigator = ScreenNavigator(this)
 
     }
 
@@ -51,7 +55,7 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     }
 
     override fun onQuestionClicked(clickQuestion: Question) {
-        screenNavigator.toQuestionDetails(clickQuestion.id) //todo 4 (finish)
+        screenNavigator.toQuestionDetails(clickQuestion.id)
     }
 
     private fun fetchQuestions() {
@@ -75,6 +79,6 @@ class QuestionsListActivity : AppCompatActivity(), QuestionsListViewMvc.Listener
     }
 
     private fun onFetchFailed() {
-        dialogsNavigator.showServerErrorDialogFragment() //todo 5 (finish)
+        dialogsNavigator.showServerErrorDialogFragment()
     }
 }
