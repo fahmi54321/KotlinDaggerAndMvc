@@ -11,20 +11,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class FetchQuestionsUseCase {
 
-    //todo 4 (next QuestionsListActivity)
     sealed class Result {
         class Success(val questions: List<Question>) : Result()
         object Failure : Result()
     }
 
-    //todo 1
     private val retrofit = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
-    private val stackoverflowApi: StackoverflowApi = retrofit.create(StackoverflowApi::class.java) //todo 2
+    private val stackoverflowApi: StackoverflowApi = retrofit.create(StackoverflowApi::class.java)
 
-    //todo 3
     suspend fun fetchLatestQuestions(): Result {
         return withContext(Dispatchers.IO) {
             try {
