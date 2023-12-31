@@ -15,7 +15,7 @@ class MyApplication: Application() {
         .build()
 
     private val stackoverflowApi = retrofit.create(StackoverflowApi::class.java)
-    val fetchQuestionsUseCase get() = FetchQuestionsUseCase(stackoverflowApi) //todo 1 (next QuestionsListActivity)
+    val fetchQuestionsUseCase get() = FetchQuestionsUseCase(stackoverflowApi)
     val fetchDetailQuestionsUseCase get() = FetchDetailQuestionsUseCase(stackoverflowApi)
 
     override fun onCreate() {

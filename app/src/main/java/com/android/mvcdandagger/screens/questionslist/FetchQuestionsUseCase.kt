@@ -10,7 +10,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class FetchQuestionsUseCase(
-    private val stackoverflowApi: StackoverflowApi //todo 1 (next MyApplication)
+    private val stackoverflowApi: StackoverflowApi
 ) {
 
     sealed class Result {
