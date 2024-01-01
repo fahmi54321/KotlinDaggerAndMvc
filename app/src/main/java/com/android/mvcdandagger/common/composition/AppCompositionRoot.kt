@@ -9,7 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class AppCompositionRoot {
 
-    //todo 1 (next MyApplication)
     private val retrofit = Retrofit.Builder()
         .baseUrl(Constants.BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
