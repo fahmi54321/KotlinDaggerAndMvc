@@ -9,8 +9,6 @@ class PresentationCompositionRoot(
     private val activityCompositionRoot: ActivityCompositionRoot
 ) {
 
-
-    //todo 1 (next ActivityCompositionRoot)
     private val layoutInflater get() = activityCompositionRoot.layoutInflater
     private val fragmentManager get() = activityCompositionRoot.fragmentManager
     private val stackoverflowApi get() = activityCompositionRoot.stackoverflowApi

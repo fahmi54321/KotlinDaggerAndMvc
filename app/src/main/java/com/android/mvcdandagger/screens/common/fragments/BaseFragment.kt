@@ -8,7 +8,6 @@ import com.android.mvcdandagger.common.composition.PresentationCompositionRoot
 import com.android.mvcdandagger.screens.common.activities.BaseActivity
 
 open class BaseFragment:Fragment() {
-    //todo 4 (finish)
     val compositionRoot by lazy {
         PresentationCompositionRoot((requireActivity() as BaseActivity).activityCompositionRoot)
     }

@@ -9,7 +9,6 @@ class ViewMvcFactory(
     private val layoutInflater: LayoutInflater
 ) {
 
-    //todo 4 (next ActivityCompositionRoot)
     fun newQuestionsListViewMvc(parent: ViewGroup?): QuestionsListViewMvc{
         return QuestionsListViewMvc(layoutInflater, parent)
     }

@@ -7,7 +7,6 @@ class ScreenNavigator(
     private val activity: Activity
 ) {
 
-    //todo 1 (next QuestionsListActivity)
     fun toQuestionDetails(questionId:String){
         QuestionDetailsActivity.start(activity, questionId)
     }

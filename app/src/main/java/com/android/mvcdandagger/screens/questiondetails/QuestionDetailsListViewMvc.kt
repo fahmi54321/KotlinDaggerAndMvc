@@ -23,7 +23,7 @@ class QuestionDetailsListViewMvc(
         fun onBackClicked()
     }
 
-    private lateinit var txtQuestionBody: TextView
+    private var txtQuestionBody: TextView
 
     var swipeRefresh: SwipeRefreshLayout
     var toolbar: MyToolbar
