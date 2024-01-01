@@ -28,9 +28,9 @@ class QuestionsListActivity : BaseActivity(), QuestionsListViewMvc.Listener {
 
         setContentView(viewMvc.rootView)
 
-        fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase // todo 8 (finish) cek juga di QuestionDetailsActivity
+        fetchQuestionsUseCase = compositionRoot.fetchQuestionsUseCase
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
-        screenNavigator = compositionRoot.screenNavigator //todo 8 (finish) cek juga di QuestionDetailsActivity
+        screenNavigator = compositionRoot.screenNavigator
 
     }
 

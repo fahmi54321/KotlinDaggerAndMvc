@@ -3,8 +3,6 @@ package com.android.mvcdandagger.common.composition
 import androidx.annotation.UiThread
 import com.android.mvcdandagger.Constants
 import com.android.mvcdandagger.networking.StackoverflowApi
-import com.android.mvcdandagger.screens.questiondetails.FetchDetailQuestionsUseCase
-import com.android.mvcdandagger.screens.questionslist.FetchQuestionsUseCase
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
