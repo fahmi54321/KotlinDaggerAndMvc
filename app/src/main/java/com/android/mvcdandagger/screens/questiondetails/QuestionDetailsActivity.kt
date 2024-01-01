@@ -42,8 +42,8 @@ class QuestionDetailsActivity : BaseActivity(),QuestionDetailsListViewMvc.Listen
 
         questionId = intent.extras!!.getString(EXTRA_QUESTION_ID)!!
         dialogsNavigator = DialogsNavigator(supportFragmentManager)
-        screenNavigator = ScreenNavigator(this)
-        fetchDetailQuestionsUseCase = appCompositionRoot.fetchDetailQuestionsUseCase
+        screenNavigator = compositionRoot.screenNavigator // todo 8 (finish)
+        fetchDetailQuestionsUseCase = compositionRoot.fetchDetailQuestionsUseCase // todo 8 (finish)
     }
 
     override fun onStart() {
