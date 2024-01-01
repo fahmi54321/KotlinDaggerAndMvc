@@ -33,14 +33,12 @@ class QuestionsListFragment : BaseFragment(), QuestionsListViewMvc.Listener {
 
     }
 
-    //todo 2
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        //todo 3 (next ViewMvcFactory)
         viewMvc = compositionRoot.viewMvcFactory.newQuestionsListViewMvc(container)
         return viewMvc.rootView
     }

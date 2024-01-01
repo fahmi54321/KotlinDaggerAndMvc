@@ -15,7 +15,6 @@ import kotlinx.coroutines.*
 
 class QuestionsListActivity : BaseActivity() {
 
-    //todo 1 pindahkan code ke fragment (next QuestionsListFragment)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.layout_frame)

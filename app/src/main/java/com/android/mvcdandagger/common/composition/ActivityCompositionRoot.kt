@@ -1,6 +1,5 @@
 package com.android.mvcdandagger.common.composition
 
-import android.app.Activity
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.android.mvcdandagger.screens.common.dialogs.DialogsNavigator
@@ -18,8 +17,8 @@ class ActivityCompositionRoot(
         ScreenNavigator(activity)
     }
 
-    private val layoutInflater get() = LayoutInflater.from(activity) //todo 5
-    val viewMvcFactory get() = ViewMvcFactory(layoutInflater) //todo 6 (finish)
+    private val layoutInflater get() = LayoutInflater.from(activity)
+    val viewMvcFactory get() = ViewMvcFactory(layoutInflater)
 
     private val fragmentManager get() = activity.supportFragmentManager
     val dialogNavigator get() = DialogsNavigator(fragmentManager)
