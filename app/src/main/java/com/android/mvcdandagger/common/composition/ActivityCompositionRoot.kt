@@ -1,5 +1,6 @@
 package com.android.mvcdandagger.common.composition
 
+import android.app.Activity
 import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.android.mvcdandagger.screens.common.dialogs.DialogsNavigator
@@ -13,18 +14,12 @@ class ActivityCompositionRoot(
     private val appCompositionRoot: AppCompositionRoot
 ) {
 
+    //todo 2 (next BaseActivity)
     val screenNavigator by lazy {
         ScreenNavigator(activity)
     }
 
-    private val layoutInflater get() = LayoutInflater.from(activity)
-    val viewMvcFactory get() = ViewMvcFactory(layoutInflater)
-
-    private val fragmentManager get() = activity.supportFragmentManager
-    val dialogNavigator get() = DialogsNavigator(fragmentManager)
-
-    private val stackoverflowApi get() = appCompositionRoot.stackoverflowApi
-
-    val fetchQuestionsUseCase get() = FetchQuestionsUseCase(stackoverflowApi)
-    val fetchDetailQuestionsUseCase get() = FetchDetailQuestionsUseCase(stackoverflowApi)
+    val layoutInflater get() = LayoutInflater.from(activity)
+    val fragmentManager get() = activity.supportFragmentManager
+    val stackoverflowApi get() = appCompositionRoot.stackoverflowApi
 }
