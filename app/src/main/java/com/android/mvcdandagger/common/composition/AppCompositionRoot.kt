@@ -13,7 +13,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 @UiThread
 class AppCompositionRoot {
 
-    //todo 2
     private val retrofit: Retrofit by lazy {
         Retrofit.Builder()
             .baseUrl(Constants.BASE_URL)
@@ -21,7 +20,6 @@ class AppCompositionRoot {
             .build()
     }
 
-    //todo 3 (finish)
     private val stackoverflowApi : StackoverflowApi by lazy {
         retrofit.create(StackoverflowApi::class.java)
     }
