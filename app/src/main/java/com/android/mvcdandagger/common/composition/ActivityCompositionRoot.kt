@@ -8,7 +8,7 @@ import com.android.mvcdandagger.screens.questiondetails.FetchDetailQuestionsUseC
 import com.android.mvcdandagger.screens.questionslist.FetchQuestionsUseCase
 
 class ActivityCompositionRoot(
-    private val activity: AppCompatActivity, //todo 1
+    private val activity: AppCompatActivity,
     private val appCompositionRoot: AppCompositionRoot
 ) {
 
@@ -16,8 +16,8 @@ class ActivityCompositionRoot(
         ScreenNavigator(activity)
     }
 
-    private val fragmentManager get() = activity.supportFragmentManager  //todo 2
-    val dialogNavigator get() = DialogsNavigator(fragmentManager)  //todo 3 (next QuestionsListActivity)
+    private val fragmentManager get() = activity.supportFragmentManager
+    val dialogNavigator get() = DialogsNavigator(fragmentManager)
 
     private val stackoverflowApi get() = appCompositionRoot.stackoverflowApi
 
