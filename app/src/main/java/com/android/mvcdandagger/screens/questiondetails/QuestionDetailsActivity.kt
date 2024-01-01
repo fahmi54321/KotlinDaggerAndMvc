@@ -18,6 +18,7 @@ import com.android.mvcdandagger.screens.common.dialogs.DialogsNavigator
 import com.android.mvcdandagger.screens.common.dialogs.ServerErrorDialogFragment
 import com.android.mvcdandagger.screens.common.navigator.ScreenNavigator
 import com.android.mvcdandagger.screens.common.toolbar.MyToolbar
+import com.android.mvcdandagger.screens.questionslist.QuestionsListFragment
 import kotlinx.coroutines.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -36,7 +37,7 @@ class QuestionDetailsActivity : BaseActivity(),QuestionDetailsListViewMvc.Listen
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mvc = QuestionDetailsListViewMvc(LayoutInflater.from(this),null)
+        mvc = compositionRoot.viewMvcFactory.newQuestionsDetailsViewMvc(null)
 
         setContentView(mvc.rootView)
 
